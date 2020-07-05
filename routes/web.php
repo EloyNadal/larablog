@@ -15,6 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
-Route::resource('post', 'dashboard\PostController');
+Route::resource('dashboard/post', 'dashboard\PostController');
