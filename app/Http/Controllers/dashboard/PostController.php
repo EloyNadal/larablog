@@ -7,9 +7,21 @@ use App\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostPost;
+use App\PostImage;
 
 class PostController extends Controller
 {
+
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware(['auth', 'rol.admin']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -98,7 +110,12 @@ class PostController extends Controller
 
         $request->image->move(public_path('images'), $filename);
 
-        return back()->with('status', 'Post actualizado con exito');
+        PostImage::create([
+            'image' => $filename,
+            'post_id' => $post->id
+        ]);
+
+        return back()->with('status', 'Imagen cargada con exito');
     }
 
     /**
