@@ -10928,3 +10928,11 @@ a.text-dark:focus {
   }
 }
 
+.bg-footer {
+  background-color: #00838f;
+}
+
+.bg-footer-copyright {
+  background-color: #006972;
+}
+
