@@ -54,5 +54,7 @@
         @enderror
 
     </div>
+
+    <input type="hidden" id="token" value="{{ csrf_token() }}">
     <input class="btn btn-primary" type="submit" value="Guardar">
 

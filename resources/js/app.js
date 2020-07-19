@@ -5,7 +5,41 @@
  */
 
 require('./bootstrap');
+//import MyUploadAdapter from "./assets/ckeditor/MyUploadAdapter.js";
+var MyUploadAdapter = require("./assets/ckeditor/MyUploadAdapter.js");
+const ClassicEditor = require('@ckeditor/ckeditor5-build-classic');
 
+
+// ...
+
+function MyCustomUploadAdapterPlugin(editor) {
+    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+        // Configure the URL to the upload script in your back-end here!
+        return new MyUploadAdapter(loader);
+    };
+}
+
+// ...
+
+
+ClassicEditor
+    .create(document.querySelector('#content'), {
+        extraPlugins: [MyCustomUploadAdapterPlugin],
+    })
+    .then(editor => {
+        console.log(editor);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+
+
+
+
+
+/**
+ * Vue
+ */
 window.Vue = require('vue');
 
 /**
@@ -24,19 +58,19 @@ Vue.component('example-component', require('./components/ExampleComponent.vue').
 // Define a new component called button-counter
 Vue.component('list-posts', {
     data: function () {
-      return {
-        posts2: [
-            {title : 'Titulo 1', image : '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga'},
-            {title : 'Titulo 2', image : '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga'},
-            {title : 'Titulo 3', image : '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga'},
-            {title : 'Titulo 4', image : '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga'},
-            {title : 'Titulo 5', image : '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga'},
-        ]
-      }
+        return {
+            posts2: [
+                { title: 'Titulo 1', image: '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga' },
+                { title: 'Titulo 2', image: '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga' },
+                { title: 'Titulo 3', image: '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga' },
+                { title: 'Titulo 4', image: '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga' },
+                { title: 'Titulo 5', image: '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga' },
+            ]
+        }
     },
     template:
         '<div><div class="card" v-for="post in posts2"> <img v-bind:src=" \'/images/\' + post.image" class="card-img-top" alt=""> <div class="card-body"> <h5 class="card-title">{{ post.title }}</h5> <p class="card-text">{{ post.content }}</p> <a href="#" class="btn btn-primary">Ver resumen</a> </div> </div></div>'
-  });
+});
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -49,11 +83,11 @@ const app = new Vue({
     data: {
         message: "Hello Vues!",
         posts: [
-            {title : 'Titulo 1', image : '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga'},
-            {title : 'Titulo 2', image : '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga'},
-            {title : 'Titulo 3', image : '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga'},
-            {title : 'Titulo 4', image : '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga'},
-            {title : 'Titulo 5', image : '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga'},
+            { title: 'Titulo 1', image: '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga' },
+            { title: 'Titulo 2', image: '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga' },
+            { title: 'Titulo 3', image: '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga' },
+            { title: 'Titulo 4', image: '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga' },
+            { title: 'Titulo 5', image: '1594499051.png', content: 'fasdg ashdas sgdas dgas dgadsg sgdagdasdga' },
         ]
     }
 });
