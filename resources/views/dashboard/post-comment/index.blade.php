@@ -2,42 +2,40 @@
 
 @section('content')
 
-<a class="btn btn-success  mt-3 mb-3" href="{{ route('post.create') }}">Crear</a>
+@if (count($postComments) > 0)
 
 <table class="table">
     <thead>
         <tr>
             <td>Id</td>
-            <td>Título</td>
-            <td>Categoría</td>
-            <td>Posteado</td>
+            <td>Titulo</td>
+            <td>Aprovado</td>
+            <td>Usuario</td>
             <td>Creación</td>
             <td>Actualización</td>
             <td>Acciones</td>
         </tr>
     </thead>
     <tbody>
-        @foreach ($posts as $post)
+        @foreach ($postComments as $postComment)
         <tr>
-            <td>{{ $post->id }}</td>
-            <td>{{ $post->title }}</td>
-            <td>{{ $post->category->title }}</td>
-            <td>{{ $post->posted }}</td>
-            <td>{{ $post->created_at->format('d-m-Y') }}</td>
-            <td>{{ $post->updated_at->format('d-m-Y') }}</td>
+            <td>{{ $postComment->id }}</td>
+            <td>{{ $postComment->title }}</td>
+            <td>{{ $postComment->approved }}</td>
+            <td>{{ $postComment->user->name }}</td>
+            <td>{{ $postComment->created_at->format('d-m-Y') }}</td>
+            <td>{{ $postComment->updated_at->format('d-m-Y') }}</td>
             <td>
-                <a class="btn btn-primary" href="{{ route('post.show', $post->id) }}">Ver</a>
-                <a class="btn btn-primary" href="{{ route('post.edit', $post->id) }}">Actualizar</a>
-                <a class="btn btn-primary" href="{{ route('post-comment.post', $post->id) }}">Comentarios</a>
+                <a class="btn btn-primary" href="{{ route('post-comment.show', $postComment->id) }}">Ver</a>
                 <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
-                    data-id="{{ $post->id }}">Eliminar</button>
+                    data-id="{{ $postComment->id }}">Eliminar</button>
             </td>
         </tr>
         @endforeach
     </tbody>
 </table>
 
-{{ $posts->links() }}
+{{ $postComments->links() }}
 
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -56,8 +54,8 @@
 
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <form id="formDelete" action="{{ route('post.destroy', 0) }}"
-                    data-action="{{ route('post.destroy', 0) }}" method="POST">
+                <form id="formDelete" action="{{ route('post-comment.destroy', 0) }}"
+                    data-action="{{ route('post-comment.destroy', 0) }}" method="POST">
                     @method('DELETE')
                     @csrf
                     <button type="submit" class="btn btn-danger">Borrar</button>
@@ -92,6 +90,10 @@
     }
 </script>
 
+@else
 
+<h1>No hay comentarios para el post seleccionado</h1>
+
+@endif
 
 @endsection
