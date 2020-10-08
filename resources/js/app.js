@@ -21,8 +21,8 @@ function MyCustomUploadAdapterPlugin(editor) {
 
 // ...
 
-
-ClassicEditor
+if(document.querySelector('#content') != null){
+    ClassicEditor
     .create(document.querySelector('#content'), {
         extraPlugins: [MyCustomUploadAdapterPlugin],
     })
@@ -32,6 +32,8 @@ ClassicEditor
     .catch(error => {
         console.error(error);
     });
+}
+
 
 
 
@@ -78,6 +80,7 @@ Vue.component('list-posts', {
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+/*
 const app = new Vue({
     el: '#app',
     data: {
@@ -91,3 +94,4 @@ const app = new Vue({
         ]
     }
 });
+*/

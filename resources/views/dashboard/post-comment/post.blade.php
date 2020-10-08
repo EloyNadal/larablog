@@ -120,9 +120,10 @@
 
 
 <script>
+
     window.onload = function(){
 
-        $('#showModal').on('show.bs.modal', function (event) {
+        $('#showModal').on('show.bs.modal',  function (event) {
 
             var button = $(event.relatedTarget);
             var id = button.data('id');
@@ -139,11 +140,12 @@
 
             });
 
+
         });
 
 
         $('#deleteModal').on('show.bs.modal', function (event) {
-
+            console.log("test");
             var button = $(event.relatedTarget); // Button that triggered the modal
             var id = button.data('id'); // Extract info from data-* attributes
             // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
@@ -159,6 +161,12 @@
             modal.find('.modal-title').text('Vas a borrar el POST ' + id);
         });
 
+        $('#filterForm').submit(function(){
+            var action = $(this).attr('action');
+            action = action.replace(/[0-9]/g, $("#filterPost").val());
+            $(this).attr('action', action);
+        });
+
     };
 </script>
 
@@ -167,17 +175,5 @@
 <h1>No hay comentarios para el post seleccionado</h1>
 
 @endif
-
-<script>
-    //window.onload = function() {
-
-        $('#filterForm').submit(function(){
-            var action = $(this).attr('action');
-            action = action.replace(/[0-9]/g, $("#filterPost").val());
-            $(this).attr('action', action);
-        });
-
-    //}
-</script>
 
 @endsection

@@ -60,6 +60,8 @@ class PostCommentController extends Controller
     public function jshow(PostComment $postComment)
     {
         return response()->json($postComment);
+        //para mostrar formulario en modal
+        //return view('dashboard.post-comment.show', ['postComment' => $postComment]);
     }
 
     /**

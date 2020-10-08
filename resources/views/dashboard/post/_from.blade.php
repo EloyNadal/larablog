@@ -55,6 +55,6 @@
 
     </div>
 
-<input type="hidden" id="token" value="{{ crsf_token }}">
+
     <input class="btn btn-primary" type="submit" value="Guardar">
 

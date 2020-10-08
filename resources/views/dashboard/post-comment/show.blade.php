@@ -1,6 +1,3 @@
-@extends('dashboard.master')
-
-@section('content')
 
 <div class="form-group">
     <label for="title">Titulo</label>
@@ -24,5 +21,3 @@
     <textarea name="message" type="text" class="form-control" id="content" rows="3" placeholder="Mensaje"
         value="" readonly>{{ $postComment->message }}</textarea>
 </div>
-
-@endsection
