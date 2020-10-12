@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\dashboard;
 
+use App\Tag;
 use App\Post;
 use App\Category;
 use App\PostImage;
@@ -45,8 +46,9 @@ class PostController extends Controller
      */
     public function create()
     {
+        $tags = Tag::pluck('id', 'title');
         $categories = Category::pluck('id', 'title');
-        return view("dashboard.post.create", ['post' => new Post(), 'categories' => $categories]);
+        return view("dashboard.post.create", ['post' => new Post(), 'categories' => $categories, 'tags' => $tags]);
     }
 
     /**
@@ -74,7 +76,9 @@ class PostController extends Controller
                 ->withInput();
         }
 
-        Post::create($requestData);
+        $post = Post::create($requestData);
+
+        $post->tags()->sync($request->tags_id);
 
         return back()->with('status', 'Post creado con exito');
     }
@@ -98,8 +102,9 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
+        $tags = Tag::pluck('id', 'title');
         $categories = Category::pluck('id', 'title');
-        return view('dashboard.post.edit', ['post' => $post, 'categories' => $categories]);
+        return view('dashboard.post.edit', compact('post', 'categories', 'tags'));
     }
 
     /**
@@ -111,6 +116,11 @@ class PostController extends Controller
      */
     public function update(UpdatePostPut $request, Post $post)
     {
+
+        //$post->tags()->attach(1); //crea relacion
+        //$post->tags()->detach(1); //elimina relacion
+        $post->tags()->sync($request->tags_id);
+
         $post->update($request->validated());
         return back()->with('status', 'Post actualizado con exito');
     }

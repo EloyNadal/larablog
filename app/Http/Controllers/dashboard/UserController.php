@@ -3,11 +3,9 @@
 namespace App\Http\Controllers\dashboard;
 
 use App\User;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserPost;
 use App\Http\Requests\UpdateUserPut;
-use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -56,7 +54,7 @@ class UserController extends Controller
             'rol_id' => 1, // rol de admin
             'surname' => $request['surname'],
             'email' => $request['email'],
-            'password' => Hash::make($request['password'])
+            'password' => $request['password']
         ]);
         //User::create($request->validated());
         return back()->with('status', 'Usuario creado con exito');

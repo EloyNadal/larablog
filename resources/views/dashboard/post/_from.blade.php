@@ -44,6 +44,19 @@
         @enderror
     </div>
 
+    <div class="form-group">
+        <label for="tags_id">Tags</label>
+        <select multiple class="form-control" name="tags_id[]" id="tags_id">
+            @foreach ($tags as $title => $id)
+                <option {{ in_array($id, old('tags_id') ?: $post->tags->pluck('id')->toArray() ) ? "selected" : "" }} value="{{ $id }}">{{ $title }}</option>
+            @endforeach
+        </select>
+
+        @error('tags_id')
+        <small class="text-danger">{{ $message }}</small>
+        @enderror
+    </div>
+
 
     <div class="form-group">
         <label for="content">Contenido</label>
@@ -54,6 +67,8 @@
         @enderror
 
     </div>
+
+
 
 
     <input class="btn btn-primary" type="submit" value="Guardar">

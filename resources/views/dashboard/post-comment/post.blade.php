@@ -56,8 +56,13 @@
                 <button class="btn btn-primary" data-toggle="modal" data-target="#showModal"
                     data-id="{{ $postComment->id }}">Ver</button>
 
+                <button class="approved btn btn-{{ $postComment->approved == 1 ? "success" : "danger" }}"
+                    data-id="{{ $postComment->id }}">{{ $postComment->approved == 1 ? "Aprobado" : "Rechazado" }}</button>
+
                 <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                     data-id="{{ $postComment->id }}">Eliminar</button>
+
+
             </td>
         </tr>
         @endforeach
@@ -121,6 +126,34 @@
 
 <script>
 
+    document.querySelectorAll('.approved').forEach(button => button.addEventListener("click", function(){
+
+        let id = button.getAttribute("data-id");
+        let token = '{{ csrf_token() }}';
+        let formData = new FormData();
+
+        formData.append("_token", token);
+
+        fetch('{{ URL::to("/") }}/dashboard/post-comment/proccess/' +id, {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => response.json())
+            .then(approved => {
+                if(approved == 1){
+                    button.classList.remove('btn-danger');
+                    button.classList.add('btn-success');
+                    button.innerHTML = 'Aprovado';
+                }
+                else{
+                    button.classList.remove('btn-success');
+                    button.classList.add('btn-danger');
+                    button.innerHTML = 'Rechazado';
+                }
+            });
+
+    }));
+
     window.onload = function(){
 
         $('#showModal').on('show.bs.modal',  function (event) {
@@ -130,7 +163,7 @@
 
             var modal = $(this);
 
-            $.ajax({
+            /* $.ajax({
                 method: "GET",
                 url: '{{ URL::to("/") }}/dashboard/post-comment/j-show/' +id,
             })
@@ -138,7 +171,14 @@
                 modal.find('.modal-title').text(comment.title);
                 modal.find('.message').text(comment.message);
 
+            }); */
+            fetch('{{ URL::to("/") }}/dashboard/post-comment/j-show/' +id)
+            .then(response => response.json())
+            .then(comment => {
+                modal.find('.modal-title').text(comment.title);
+                modal.find('.message').text(comment.message);
             });
+
 
 
         });
