@@ -1,8 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+/* DB::listen(function($query){
+    echo "<code>".$query->sql."</code>";
+}); */
 /*
 |--------------------------------------------------------------------------
 | Web Routes

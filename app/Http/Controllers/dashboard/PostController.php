@@ -8,11 +8,12 @@ use App\Category;
 use App\PostImage;
 use App\Helpers\CustomUrl;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostPost;
 use App\Http\Requests\UpdatePostPut;
-use Illuminate\Contracts\Cache\Store;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
@@ -33,9 +34,18 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::orderBy('created_at', 'desc')->paginate(5);
+
+        $posts = Post::with('category')
+                ->orderBy('created_at', request('created_at', 'DESC'));
+
+        if($request->has('search')){
+            $posts = $posts->where('title', 'LIKE', '%'.request('search').'%');
+        }
+
+        $posts = $posts->paginate(5);
+
         return view('dashboard.post.index', ['posts' => $posts]);
     }
 
@@ -141,10 +151,12 @@ class PostController extends Controller
 
         $filename = time() . "." . $request->image->extension();
 
-        $request->image->move(public_path('images'), $filename);
+        //$request->image->move(public_path('images'), $filename);
+
+        $path = $request->image->store('public/image');
 
         PostImage::create([
-            'image' => $filename,
+            'image' => $path,
             'post_id' => $post->id
         ]);
 

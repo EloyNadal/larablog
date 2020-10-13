@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\dashboard;
 
+use App\Events\UserCreated;
 use App\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreUserPost;
@@ -27,7 +28,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::orderBy('created_at', 'desc')->paginate(5);
+        $users = User::with('role')->orderBy('created_at', 'desc')->paginate(5);
         return view('dashboard.user.index', ['users' => $users]);
     }
 
@@ -49,7 +50,7 @@ class UserController extends Controller
      */
     public function store(StoreUserPost $request)
     {
-        User::create([
+        $user = User::create([
             'name' => $request['name'],
             'rol_id' => 1, // rol de admin
             'surname' => $request['surname'],
@@ -57,6 +58,8 @@ class UserController extends Controller
             'password' => $request['password']
         ]);
         //User::create($request->validated());
+
+        event(new UserCreated($user));
         return back()->with('status', 'Usuario creado con exito');
     }
 
