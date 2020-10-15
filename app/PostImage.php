@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Post;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
@@ -14,8 +15,12 @@ class PostImage extends Model
         return $this->belongsTo(Post::class);
     }
 
-    //mutator
-    public function getImageAttribute($value){
-        return Storage::url($value);
+    public function getImageUrl(){
+        return URL::assets('images/'.$this->image);
     }
+
+    //mutator
+    //public function getImageAttribute($value){
+        //return Storage::url($value);
+    //}
 }

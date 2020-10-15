@@ -9,10 +9,13 @@ use App\PostImage;
 use App\Helpers\CustomUrl;
 use Illuminate\Http\Request;
 
+use App\Jobs\ProcessImageSmall;
 use Illuminate\Support\Facades\URL;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePostPost;
 use App\Http\Requests\UpdatePostPut;
+use App\Jobs\SendEmail;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -36,6 +39,10 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
+
+        #test email con cola
+        //SendEmail::dispatch("Email enviado por colas", 'bydoser@email.com');
+
 
         $posts = Post::with('category')
                 ->orderBy('created_at', request('created_at', 'DESC'));
@@ -151,14 +158,16 @@ class PostController extends Controller
 
         $filename = time() . "." . $request->image->extension();
 
-        //$request->image->move(public_path('images'), $filename);
+        $request->image->move(public_path('images'), $filename);
 
-        $path = $request->image->store('public/image');
+        //$path = $request->image->store('public/image');
 
-        PostImage::create([
-            'image' => $path,
+        $image = PostImage::create([
+            'image' => /*$path*/ $filename,
             'post_id' => $post->id
         ]);
+
+        ProcessImageSmall::dispatch($image);
 
         return back()->with('status', 'Imagen cargada con exito');
     }
@@ -185,5 +194,22 @@ class PostController extends Controller
     {
         $post->delete();
         return back()->with('status', 'Post eliminado con exito');
+    }
+
+    private function sendMail()
+    {
+        $data['title'] = "Datos de prueba";
+
+        Mail::send('emails.email', $data, function ($message) {
+            $message->to('andres@gmail.com', 'Pepito')
+                ->subject("Gracias por escribirnos");
+        });
+
+        //dd(Mail::failures());
+        if (Mail::failures()) {
+            return "Mensaje no enviado";
+        } else {
+            return "Mensaje enviado";
+        }
     }
 }
