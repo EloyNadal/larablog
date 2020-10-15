@@ -4,6 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 
+
 require('./bootstrap');
 //import MyUploadAdapter from "./assets/ckeditor/MyUploadAdapter.js";
 var MyUploadAdapter = require("./assets/ckeditor/MyUploadAdapter.js");

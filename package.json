@@ -24,6 +24,8 @@
         "vue-template-compiler": "^2.6.10"
     },
     "dependencies": {
-        "@ckeditor/ckeditor5-build-classic": "^12.4.0"
+        "@ckeditor/ckeditor5-build-classic": "^12.4.0",
+        "@fortawesome/fontawesome": "^1.1.8",
+        "@fortawesome/fontawesome-free": "^5.15.1"
     }
 }

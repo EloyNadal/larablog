@@ -2,15 +2,22 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\Uppercase;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StorePostPost extends FormRequest
 {
 
-    public static function myRules(){
+    public static function myRules()
+    {
 
         return [
-            'title' => 'required|min:5|max:500',
+            'title' => [
+                'required',
+                'min:5',
+                'max:500',
+                new Uppercase()
+            ],
             'url_clean' => 'max:500|unique:posts',
             'content' => 'required|min:5',
             'category_id' => 'required',
