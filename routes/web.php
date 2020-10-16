@@ -35,3 +35,4 @@ Route::get('/', 'web\WebController@index')->name('index');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/chart', 'PaquetesController@charts')->name('chart');
