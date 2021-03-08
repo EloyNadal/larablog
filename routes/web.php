@@ -31,6 +31,7 @@ Route::get('dashboard/post-comment/j-show/{postComment}', 'dashboard\PostComment
 Route::post('dashboard/post-comment/proccess/{postComment}', 'dashboard\PostCommentController@proccess');
 
 Route::get('/', 'web\WebController@index')->name('index');
+Route::get('/test', 'web\TestController@index')->name('test.index');
 
 Auth::routes();
 
