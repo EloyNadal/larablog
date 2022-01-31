@@ -45,6 +45,10 @@ class User extends Authenticatable
         return $this->belongsTo(Rol::class);
     }
 
+    public function postComment(){
+        return $this->hasMany(PostComment::class);
+    }
+
     //Mutators
     /* public function getPasswordAttribute($value){
         return strtoupper($value);

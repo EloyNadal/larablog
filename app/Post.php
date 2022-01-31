@@ -15,6 +15,10 @@ class Post extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function postComments(){
+        return $this->hasMany(PostComment::class);
+    }
+
     public function image(){
         return $this->hasOne(PostImage::class);
     }
