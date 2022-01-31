@@ -4,9 +4,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-/* DB::listen(function($query){
+DB::listen(function($query){
     echo "<code>".$query->sql."</code>";
-}); */
+    echo "<br>";
+});
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,6 +18,12 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/test-page', 'web\TestController@testPage');
+Route::post('/save-page', 'web\TestController@savePage');
+Route::get('/get-page', 'web\TestController@getPage');
+Route::post('/save-image', 'web\TestController@saveImage');
+
 
 Route::resource('dashboard/post', 'dashboard\PostController');
 Route::post('dashboard/post/{post}/image', 'dashboard\PostController@image')->name('post.image');
